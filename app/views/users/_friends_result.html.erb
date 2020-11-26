@@ -1,0 +1,30 @@
+<div class="results-block">
+  <%= render 'layouts/messages' %>
+</div> 
+<% if @friends %>
+  <div class="card card-header results-block">
+    <table class="col-md-12">
+      <tbody>
+        <% @friends.each do |friend| %>
+          <tr>
+            <td><strong>Email: </strong> <%= friend.email %></td>
+            <td><strong>Name: </strong> <%= friend.full_name %></td>
+            <td>
+              <% if current_user.can_add_friend?(friend) %>
+                <%= link_to 'Add to friends', 
+                      user_friends_path(user: current_user, friend: friend),
+                      class: "btn btn-xs btn-success",
+                      method: :post 
+                %>
+              <% else %>
+                <span class="badge badge-secondary">
+                  You have already added <%= friend.full_name %> as a friend
+                </span>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+<% end %>
